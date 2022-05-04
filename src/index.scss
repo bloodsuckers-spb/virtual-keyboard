@@ -9,11 +9,20 @@ body {
 
 
 .keyboard {
-    display: flex;
-    flex-direction: column;
-    background: #60C1B6;
+  display: flex;
+  flex-direction: column;
+  background: #60C1B6;
   }
-  
+
+  .keys-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .keyboard-row {
+    display: flex;
+  }
 
 .key {
     background: #FFFFFF;
