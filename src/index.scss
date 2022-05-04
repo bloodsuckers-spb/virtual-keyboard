@@ -1,2 +1,35 @@
 @import '~reseter.css';
+@import './sass/_vars.scss';
 @import './sass/_base.scss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
+body {
+  background-color: #4287f5;
+}
+
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    background: #60C1B6;
+  }
+  
+
+.key {
+    background: #FFFFFF;
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 16px;
+    color: #60C1B6;
+    cursor: pointer;
+    display: flex;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    justify-content: center;
+    min-width: 65px;
+    align-items: center;
+    padding: 18px 24px;
+    height: 65px;
+    box-sizing: border-box;
+  }
