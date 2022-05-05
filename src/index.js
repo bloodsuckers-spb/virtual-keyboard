@@ -5,6 +5,7 @@ import * as storage from './js/storage';
 import buttons from './js/buttons';
 
 new Keyboard(buttons)
+  .addKeysCodes()
   .generateOutput()
   .generateKeys()
   .generateLayout()

@@ -6,6 +6,7 @@ export default class Keyboard {
     this.lang = lang;
     this.buttons = buttons;
     this.keys = [];
+    this.funcKeysCodes = [];
     this.keyboardRows = 5;
     this.output = '';
     this.layout = '';
@@ -20,11 +21,18 @@ export default class Keyboard {
     return this.keyboardRows;
   }
 
+  addKeysCodes() {
+    this.funcKeysCodes = [];
+    this.funcKeysCodes = this.buttons.filter((el) => el.type === 'functional').map((el) => el.code);
+    return this;
+  }
+
   generateOutput() {
     const output = createDomNode('textarea', 'output');
-    output.setAttribute('placeholder', 'Remember, be nice!');
-    output.setAttribute('cols', '40');
-    output.setAttribute('rows', '6');
+    output.placeholder = 'Remember, be nice!';
+    output.autofocus = true;
+    output.cols = '40';
+    output.rows = '6';
     this.output = output;
     return this;
   }
@@ -64,12 +72,15 @@ export default class Keyboard {
   }
 
   handleEvent() {
-    document.addEventListener('keyup', () => {
+    document.addEventListener('keyup', (e) => {
       console.log('keyup');
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace') {
-        this.output.value = this.output.value.slice(0, -1);
+      if (this.funcKeysCodes.includes(e.code)) {
+        e.preventDefault();
+        if (e.code === 'Backspace') {
+          this.output.value = this.output.value.slice(0, -1);
+        }
       } else {
         this.output.value += e.key;
       }
