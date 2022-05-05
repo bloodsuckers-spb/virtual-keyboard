@@ -4,32 +4,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
 
 body {
-  background-color: #4287f5;
+  background-color: #151b24;
+  padding: 5%;
 }
 
 
 .keyboard {
   display: flex;
   flex-direction: column;
-  background: #60C1B6;
-  }
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.output {
+  width: 50%;
+  resize: none;
+  border-radius: 5px;
+  background-color: #a9acad;
+}
 
   .keys-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    padding: 10px;
+    display: grid;
+    gap: 5px;
+    background-color: #272d3b;
+    border-radius: 10px;
   }
 
   .keyboard-row {
     display: flex;
+    gap: 5px;
   }
 
 .key {
-    background: #FFFFFF;
+    background-color: #b7b8bd;
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.05);
     border: none;
     border-radius: 16px;
-    color: #60C1B6;
+    color: #000;
     cursor: pointer;
     display: flex;
     font-family: 'Inter', sans-serif;
@@ -41,4 +54,27 @@ body {
     padding: 18px 24px;
     height: 65px;
     box-sizing: border-box;
+    border: 1px solid black;
   }
+
+.active {
+  background-color: yellowgreen;
+}
+
+.wide-btn {
+  width: 100%;
+ // background-color: #6f6e74;
+}
+
+.functional-btn {
+  background-color:  #8b8e96
+}
+
+.colored {
+  background-color: #97c6cc;
+}
+
+.arrow-btn {
+  // border: 1px solid black;
+  background-color: #6f6e74;
+}

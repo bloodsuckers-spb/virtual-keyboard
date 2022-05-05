@@ -22,6 +22,9 @@ export default class Keyboard {
 
   generateOutput() {
     const output = createDomNode('textarea', 'output');
+    output.setAttribute('placeholder', 'Remember, be nice!');
+    output.setAttribute('cols', '40');
+    output.setAttribute('rows', '6');
     this.output = output;
     return this;
   }
@@ -32,7 +35,11 @@ export default class Keyboard {
       this.keys.push([]);
     }
     this.buttons.forEach((el) => {
-      const key = new Key(el).generateKey();
+      const item = new Key(el, this.output)
+        .generateKey()
+        .setData(this.lang);
+      item.handleEvent();
+      const key = item.btn;
       this.keys[el.row - 1].push(key);
     });
     return this;
@@ -53,6 +60,20 @@ export default class Keyboard {
     const keyboard = createDomNode('div', classNames);
     keyboard.append(this.output, this.layout);
     this.keyboard = keyboard;
+    return this;
+  }
+
+  handleEvent() {
+    document.addEventListener('keyup', () => {
+      console.log('keyup');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace') {
+        this.output.value = this.output.value.slice(0, -1);
+      } else {
+        this.output.value += e.key;
+      }
+    });
     return this;
   }
 

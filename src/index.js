@@ -9,4 +9,5 @@ new Keyboard(buttons)
   .generateKeys()
   .generateLayout()
   .generateKeyboard()
+  .handleEvent()
   .render();
