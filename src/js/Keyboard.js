@@ -6,7 +6,6 @@ export default class Keyboard {
     this.lang = lang;
     this.buttons = buttons;
     this.keys = [];
-    this.funcKeysCodes = [];
     this.keyboardRows = 5;
     this.output = '';
     this.layout = '';
@@ -19,12 +18,6 @@ export default class Keyboard {
 
   get rows() {
     return this.keyboardRows;
-  }
-
-  addKeysCodes() {
-    this.funcKeysCodes = [];
-    this.funcKeysCodes = this.buttons.filter((el) => el.type === 'functional').map((el) => el.code);
-    return this;
   }
 
   generateOutput() {
@@ -43,10 +36,9 @@ export default class Keyboard {
       this.keys.push([]);
     }
     this.buttons.forEach((el) => {
-      const item = new Key(el, this.output)
-        .generateKey()
-        .setData(this.lang);
-      item.handleEvent();
+      const item = new Key(el, this)
+        .generateKey(this.lang)
+        .handleEvent();
       const key = item.btn;
       this.keys[el.row - 1].push(key);
     });
@@ -60,6 +52,7 @@ export default class Keyboard {
       div.append(...this.keys[i]);
       layout.append(div);
     }
+    this.keys = this.keys.flat();
     this.layout = layout;
     return this;
   }
@@ -76,20 +69,24 @@ export default class Keyboard {
       console.log('keyup');
     });
     document.addEventListener('keydown', (e) => {
-      if (this.funcKeysCodes.includes(e.code)) {
-        e.preventDefault();
-        if (e.code === 'Backspace') {
-          this.output.value = this.output.value.slice(0, -1);
-        }
-      } else {
-        this.output.value += e.key;
-      }
+      e.preventDefault();
+      const key = this.keys.find((el) => el.code === e.code);
+      this.print(key);
     });
     return this;
   }
 
   render() {
     document.body.append(this.keyboard);
+    return this;
+  }
+
+  print(key) {
+    if (key.code === 'Backspace') {
+      this.output.value = this.output.value.slice(0, -1);
+    } else {
+      this.output.value += key.content[this.lang];
+    }
     return this;
   }
 }

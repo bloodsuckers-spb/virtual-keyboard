@@ -1,55 +1,41 @@
 import createDomNode from './helpers/createDomNode';
 
 export default class Key {
-  constructor(props, output) {
-    Object.assign(this, props);
-    this.key = '';
-    this.output = output;
+  constructor(props, keyboard) {
+    this.key = createDomNode('div', 'key');
+    this.keyboard = keyboard;
+    Object.assign(this.key, props);
   }
 
   get btn() {
     return this.key;
   }
 
-  generateKey() {
-    let key = null;
-    if (this.type === 'functional') {
+  generateKey(lang) {
+    if (this.key.type === 'functional') {
       const arr = ['Backspace', 'Space', 'Enter', 'ShiftLeft', 'Tab', 'CapsLock'];
-      key = createDomNode('div', 'key functional-btn');
-      if (arr.includes(this.code)) {
-        key.classList.add('wide-btn');
+      this.key.classList.add('functional-btn');
+      if (arr.includes(this.key.code)) {
+        this.key.classList.add('wide-btn');
       }
-      if (this.code.match('Arrow')) {
-        key.classList.add('arrow-btn');
+      if (this.key.code.match('Arrow')) {
+        this.key.classList.add('arrow-btn');
       }
-      if (this.code === 'Enter' || this.code === 'Space') {
-        key.classList.add('colored');
+      if (this.key.code === 'Enter' || this.key.code === 'Space') {
+        this.key.classList.add('colored');
       }
-    } else {
-      key = createDomNode('div', 'key');
     }
-    const firstChild = createDomNode('span', 'key__content key__content--top');
-    const secondChild = createDomNode('span', 'key__content key__content--bottom');
-    key.append(firstChild, secondChild);
-    this.key = key;
+    this.key.textContent = this.key.content[lang];
+    // const firstChild = createDomNode('span', 'key__content key__content--top');
+    // const secondChild = createDomNode('span', 'key__content key__content--bottom');
+    // this.key.append(firstChild, secondChild);
     return this;
   }
 
   handleEvent() {
-    if (!this.key) {
-      return;
-    }
     this.key.addEventListener('click', () => {
-      if (this.key.textContent === 'Backspace') {
-        this.output.value = this.output.value.slice(0, -1);
-      } else {
-        this.output.value += this.key.textContent;
-      }
+      this.keyboard.print(this.key);
     });
-  }
-
-  setData(lang) {
-    this.key.textContent = this.content[lang];
     return this;
   }
 }
