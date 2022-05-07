@@ -2,9 +2,13 @@ import createDomNode from './helpers/createDomNode';
 import Key from './Key';
 
 export default class Keyboard {
-  constructor(buttons, lang = 'ru') {
+  constructor(data, lang = 'ru') {
+    this.state = {
+      isCaps: false,
+      isShift: false,
+    };
     this.lang = lang;
-    this.buttons = buttons;
+    this.data = data;
     this.keys = [];
     this.keyboardRows = 5;
     this.output = '';
@@ -22,10 +26,13 @@ export default class Keyboard {
 
   generateOutput() {
     const output = createDomNode('textarea', 'output');
-    output.placeholder = 'Remember, be nice!';
-    output.autofocus = true;
-    output.cols = '40';
-    output.rows = '6';
+    const options = {
+      placeholder: 'Remember, be nice!',
+      autofocus: true,
+      cols: '40',
+      rows: '6',
+    };
+    Object.assign(output, options);
     this.output = output;
     return this;
   }
@@ -35,12 +42,12 @@ export default class Keyboard {
     while (this.keys.length < this.keyboardRows) {
       this.keys.push([]);
     }
-    this.buttons.forEach((el) => {
+    this.data.forEach((el) => {
       const item = new Key(el, this)
-        .generateKey(this.lang)
+        .generateKey()
         .handleEvent();
-      const key = item.btn;
-      this.keys[el.row - 1].push(key);
+      const btn = item.key;
+      this.keys[el.row - 1].push(btn);
     });
     return this;
   }
@@ -66,19 +73,55 @@ export default class Keyboard {
 
   handleEvent() {
     document.addEventListener('keyup', (e) => {
-      console.log('keyup');
-    });
-    document.addEventListener('keydown', (e) => {
       e.preventDefault();
       const key = this.keys.find((el) => el.code === e.code);
-      this.print(key);
+      if (!key) {
+        return;
+      }
+      if (key.code === 'CapsLock') {
+        this.switchCase();
+      } else {
+        this.print(key);
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'ShiftLeft') {
+        this.state.isShift = false;
+      }
     });
     return this;
   }
 
-  render() {
-    document.body.append(this.keyboard);
+  defineBtnFunctionality(key) {
+    switch (key.code) {
+      case 'CapsLock':
+        // do something
+        break;
+      case 'ShiftLeft':
+        // do something
+        break;
+      default:
+        break;
+    }
     return this;
+  }
+
+  switchCase() {
+    this.state.isCaps = !this.state.isCaps;
+    const caps = this.state.isCaps;
+    const letters = this.keys.filter((key) => key.type === 'letter');
+    for (let i = 0; i < letters.length; i += 1) {
+      const el = letters[i];
+      el.textContent = el.content[this.lang].toUpperCase();
+    }
+  }
+
+  shiftPress() {
+    // isShift;
+  }
+
+  switchLanguage() {
+    this.lang = this.lang === 'ru' ? 'en' : 'ru';
   }
 
   print(key) {
@@ -87,6 +130,11 @@ export default class Keyboard {
     } else {
       this.output.value += key.content[this.lang];
     }
+    return this;
+  }
+
+  render() {
+    document.body.append(this.keyboard);
     return this;
   }
 }

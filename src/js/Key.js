@@ -5,37 +5,53 @@ export default class Key {
     this.key = createDomNode('div', 'key');
     this.keyboard = keyboard;
     Object.assign(this.key, props);
+    this.key.isFnKey = Boolean(this.key.type === 'functional');
   }
 
-  get btn() {
-    return this.key;
-  }
+  generateKey() {
+    const btn = this.key;
 
-  generateKey(lang) {
-    if (this.key.type === 'functional') {
-      const arr = ['Backspace', 'Space', 'Enter', 'ShiftLeft', 'Tab', 'CapsLock'];
-      this.key.classList.add('functional-btn');
-      if (arr.includes(this.key.code)) {
-        this.key.classList.add('wide-btn');
-      }
-      if (this.key.code.match('Arrow')) {
-        this.key.classList.add('arrow-btn');
-      }
-      if (this.key.code === 'Enter' || this.key.code === 'Space') {
-        this.key.classList.add('colored');
-      }
+    if (btn.isFnKey) {
+      btn.classList.add('functional-btn');
     }
-    this.key.textContent = this.key.content[lang];
-    // const firstChild = createDomNode('span', 'key__content key__content--top');
-    // const secondChild = createDomNode('span', 'key__content key__content--bottom');
-    // this.key.append(firstChild, secondChild);
+
+    if (btn.code.match(/Space|Enter|Tab|Shift|Caps/gi)) {
+      btn.classList.add('wide-btn');
+    }
+
+    if (btn.code.match(/Enter|Space/)) {
+      btn.classList.add('colored');
+    }
+
+    if (btn.code.match(/Enter/)) {
+      btn.classList.add('btn-enter');
+    }
+
+    if (btn.code.match(/Backspace/)) {
+      btn.classList.add('btn-backspace');
+    }
+
+    if (btn.code.match(/Caps/)) {
+      btn.classList.add('btn-caps-lock');
+    }
+
+    if (btn.code.match(/ShiftRight/)) {
+      btn.classList.add('btn-shift-right');
+    }
+
+    const firstChild = createDomNode('span', 'top');
+    const secondChild = createDomNode('span', 'bottom');
+    btn.append(firstChild, secondChild);
+    firstChild.textContent = this.key.content[this.keyboard.lang];
+    if (this.key.content[this.keyboard.lang] !== this.key.altContent[this.keyboard.lang]) {
+      secondChild.textContent = this.key.altContent[this.keyboard.lang];
+    }
+    this.key = btn;
     return this;
   }
 
   handleEvent() {
-    this.key.addEventListener('click', () => {
-      this.keyboard.print(this.key);
-    });
+    this.key.onclick = () => { this.keyboard.print(this.key); };
     return this;
   }
 }
