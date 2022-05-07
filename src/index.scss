@@ -37,6 +37,7 @@ body {
   }
 
 .key {
+  position: relative;
     background-color: #b7b8bd;
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.05);
     border: none;
@@ -78,7 +79,6 @@ body {
 }
 
 .btn-backspace {
-  
 }
 
 .btn-caps-lock {
@@ -91,6 +91,12 @@ body {
 
 .btn-shift-right {
   max-width: 135px;
+}
+
+.bottom {
+  position: absolute;
+  top: 5px;
+  left: 10px;
 }
 
 .active {
