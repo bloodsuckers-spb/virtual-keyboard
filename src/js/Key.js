@@ -44,6 +44,7 @@ export default class Key {
     btn.append(firstChild, secondChild);
     firstChild.textContent = this.key.content[this.keyboard.lang];
     if (this.key.content[this.keyboard.lang] !== this.key.altContent[this.keyboard.lang]) {
+      this.key.isAltContent = true;
       secondChild.textContent = this.key.altContent[this.keyboard.lang];
     }
     this.key = btn;
