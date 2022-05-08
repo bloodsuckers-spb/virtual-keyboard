@@ -9,6 +9,7 @@ export default class Keyboard {
       isRightShift: false,
       isAlt: false,
       isCtrlLeft: false,
+      stack: [],
     };
     this.lang = lang;
     this.data = data;
@@ -109,7 +110,6 @@ export default class Keyboard {
         break;
       case 'ShiftLeft':
         this.state.isLeftShift = !this.state.isLeftShift;
-        console.log(this.state.isRightShift);
         if (this.state.isRightShift) {
           return false;
         }
@@ -117,7 +117,6 @@ export default class Keyboard {
         this.shiftPress();
         break;
       case 'ShiftRight':
-        console.log(this.state.isLeftShift);
         this.state.isRightShift = !this.state.isRightShift;
         if (this.state.isLeftShift) {
           return false;
@@ -138,9 +137,12 @@ export default class Keyboard {
           this.switchLanguage();
         }
         break;
+      case 'Backspace':
+        this.backspaceInOutput();
+        break;
 
       default:
-        break;
+        this.print(key);
     }
     return this;
   }
@@ -184,11 +186,24 @@ export default class Keyboard {
     return this;
   }
 
-  print(key) {
-    if (key.code === 'Backspace') {
-      this.output.value = this.output.value.slice(0, -1);
+  backspaceInOutput() {
+    if (this.state.stack[this.state.stack.length - 1] === 'Tab') {
+      this.output.value = this.output.value.slice(0, -4);
     } else {
-      this.output.value += key.content[this.lang];
+      this.output.value = this.output.value.slice(0, -1);
+    }
+    this.state.stack.pop();
+    return this;
+  }
+
+  print(key) {
+    this.state.stack.push(key.code);
+    switch (key.code) {
+      case 'Tab':
+        this.output.value += '    ';
+        break;
+      default:
+        this.output.value += key.firstChild.textContent;
     }
     return this;
   }
