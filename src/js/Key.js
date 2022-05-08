@@ -10,33 +10,12 @@ export default class Key {
 
   generateKey() {
     const btn = this.key;
+    let value = btn.code;
+    value = value.toLowerCase();
+    btn.classList.add(`key-${value}`);
 
     if (btn.isFnKey) {
       btn.classList.add('functional-btn');
-    }
-
-    if (btn.code.match(/Space|Enter|Tab|Shift|Caps/gi)) {
-      btn.classList.add('wide-btn');
-    }
-
-    if (btn.code.match(/Enter|Space/)) {
-      btn.classList.add('colored');
-    }
-
-    if (btn.code.match(/Enter/)) {
-      btn.classList.add('btn-enter');
-    }
-
-    if (btn.code.match(/Backspace/)) {
-      btn.classList.add('btn-backspace');
-    }
-
-    if (btn.code.match(/Caps/)) {
-      btn.classList.add('btn-caps-lock');
-    }
-
-    if (btn.code.match(/ShiftRight/)) {
-      btn.classList.add('btn-shift-right');
     }
 
     const firstChild = createDomNode('span', 'top');

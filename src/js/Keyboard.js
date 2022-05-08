@@ -15,6 +15,8 @@ export default class Keyboard {
     this.data = data;
     this.keys = [];
     this.keyboardRows = 5;
+    this.title = '';
+    this.desk = '';
     this.output = '';
     this.layout = '';
     this.keyboard = '';
@@ -31,7 +33,7 @@ export default class Keyboard {
   generateOutput() {
     const output = createDomNode('textarea', 'output');
     const options = {
-      placeholder: 'Remember, be nice!',
+      placeholder: 'Hello! Thanx for for checking my work! All the best to you!',
       autofocus: true,
       cols: '40',
       rows: '6',
@@ -56,21 +58,25 @@ export default class Keyboard {
     return this;
   }
 
-  generateLayout(classNames = 'keys-wrapper') {
-    const layout = createDomNode('div', classNames);
+  generateLayout() {
+    const layout = createDomNode('div', 'keys-wrapper');
+    const title = createDomNode('h1', 'title', 'Virtual Keyboard');
+    const desk = createDomNode('p', 'desk', 'Created in Windows. Press Ctrl+Alt to switch language.');
     for (let i = 0; i < this.keyboardRows; i += 1) {
       const div = createDomNode('div', 'keyboard-row');
       div.append(...this.keys[i]);
       layout.append(div);
     }
     this.keys = this.keys.flat();
+    this.title = title;
+    this.desk = desk;
     this.layout = layout;
     return this;
   }
 
   generateKeyboard(classNames = 'keyboard') {
     const keyboard = createDomNode('div', classNames);
-    keyboard.append(this.output, this.layout);
+    keyboard.append(this.title, this.desk, this.output, this.layout);
     this.keyboard = keyboard;
     return this;
   }
@@ -91,6 +97,8 @@ export default class Keyboard {
     document.addEventListener('keyup', (e) => {
       e.preventDefault();
       if (e.code.match(/Shift/)) {
+        const key = this.keys.find((el) => el.code === e.code);
+        key.classList.toggle('active');
         this.state.isCaps = !this.state.isCaps;
         this.shiftPress();
       }
@@ -102,7 +110,9 @@ export default class Keyboard {
     if (e.repeat) {
       return false;
     }
-    key.classList.toggle('active');
+    if (!key.code.match(/space|enter|del|tab|meta|arrow/gi)) {
+      key.classList.toggle('active');
+    }
     switch (key.code) {
       case 'CapsLock':
         this.state.isCaps = !this.state.isCaps;
@@ -140,7 +150,12 @@ export default class Keyboard {
       case 'Backspace':
         this.backspaceInOutput();
         break;
-
+      case 'MetaLeft':
+        break;
+      case 'ControlRight':
+        break;
+      case 'Delete':
+        break;
       default:
         this.print(key);
     }
@@ -201,6 +216,9 @@ export default class Keyboard {
     switch (key.code) {
       case 'Tab':
         this.output.value += '    ';
+        break;
+      case 'Enter':
+        this.output.value += '\n';
         break;
       default:
         this.output.value += key.firstChild.textContent;

@@ -479,14 +479,6 @@ const buttons = [
     width: 'normal',
     row: 5,
   },
-  // {
-  //   type: 'functional',
-  //   content: { ru: 'Ctrl', en: 'Ctrl' },
-  //   altContent: { ru: 'Ctrl', en: 'Ctrl' },
-  //   code: 'ControlRight',
-  //   width: 'medium',
-  //   row: 5,
-  // },
   {
     type: 'functional',
     content: { ru: '◄', en: '◄' },

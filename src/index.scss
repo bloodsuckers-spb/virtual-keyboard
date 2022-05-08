@@ -16,11 +16,25 @@ body {
   gap: 50px;
 }
 
+.title {
+  color: #a9acad;
+  font-size: 40px;
+  color: #653196;
+}
+
+.desk {
+  margin-top: -45px;
+  color: #a9acad;
+  font-size: 20px;
+}
+
 .output {
   width: 50%;
   resize: none;
   border-radius: 5px;
   background-color: #a9acad;
+  font-size: 25px;
+  box-shadow: inset 0.5px 0.5px 0px #7120bd, 1px 1px 2px 1px #7120bd;
 }
 
   .keys-wrapper {
@@ -29,6 +43,8 @@ body {
     gap: 5px;
     background-color: #272d3b;
     border-radius: 10px;
+    box-shadow: inset 1px 1px 0px #898ea1, 3px 3px 6px 3px #898ea1;
+    box-shadow: inset 0.5px 0.5px 0px #7120bd, 1px 1px 2px 1px #7120bd;
   }
 
   .keyboard-row {
@@ -38,57 +54,69 @@ body {
 
 .key {
     position: relative;
-    background-color: #b7b8bd;
-    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.05);
+    background-color: #000;
+    box-shadow: inset 0.5px 0.5px 0px #898ea1, 1px 1px 2px 1px #898ea1;
     border: none;
     border-radius: 16px;
-    color: #000;
+    color: #3f485e;
     cursor: pointer;
     display: flex;
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
+    font-size: 2rem;
+    font-size: 23px;
     font-weight: bold;
     justify-content: center;
     min-width: 65px;
     align-items: center;
     height: 65px;
     box-sizing: border-box;
-    border: 1px solid black;
-    transition: all ease .5s;
+    transform: scale(1);
+    transition: 1s
   }
 
-  .key:hover {
-    background-color: yellow;
+  .key:hover { 
+    transition: 1s;
+    transform: scale(0.9);
+    box-shadow: inset 0.5px 0.5px 0px #FF1493, 1px 1px 2px 1px #FF1493;
   }
 
-  .wide-btn {
+  .key:active {
+    transform: scale(0.7);
+    transition: 1;
+  }
+
+  .key-backspace, 
+  .key-tab, 
+  .key-enter, 
+  .key-capslock, 
+  .key-delete, 
+  .key-shiftleft, 
+  .key-shiftright,
+  .key-space {
     width: 100%;
   }
 
-.functional-btn {
-  background-color:  #8b8e96
+
+.key-space {
+  background-color: #272d3b;
 }
 
-.colored {
-  background-color: #97c6cc;
-}
 
 .arrow-btn {
   background-color: #6f6e74;
 }
 
-.btn-backspace {
-}
 
-.btn-caps-lock {
+.key-capslock {
   width: 150px;
 }
 
-.btn-enter {
+.key-enter {
  width: 170px
 }
 
-.btn-shift-right {
+.key-shiftright {
   max-width: 135px;
 }
 
@@ -99,5 +127,5 @@ body {
 }
 
 .active {
-  background-color: yellowgreen;
+  box-shadow: inset 0.5px 0.5px 0px #7120bd, 1px 1px 2px 1px #7120bd;
 }
