@@ -51,8 +51,22 @@ export default class Key {
     return this;
   }
 
-  handleEvent() {
-    this.key.onclick = () => { this.keyboard.print(this.key); };
+  bindEvent() {
+    const handleEvent = (e) => {
+      if (this.keyboard.state.isLeftShift && this.keyboard.state.isRightShift && !this.key.code.match(/Shift/)) {
+        return false;
+      }
+
+      if (this.key.isFnKey) {
+        this.keyboard.defineBtnFunctionality(e, this.key);
+      } else {
+        this.keyboard.print(this.key);
+      }
+      return true;
+    };
+    this.key.onclick = (e) => {
+      handleEvent(e);
+    };
     return this;
   }
 }

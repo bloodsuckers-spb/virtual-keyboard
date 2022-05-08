@@ -5,7 +5,8 @@ export default class Keyboard {
   constructor(data, lang = 'ru') {
     this.state = {
       isCaps: false,
-      isShift: false,
+      isLeftShift: false,
+      isRightShift: false,
       isAlt: false,
       isCtrlLeft: false,
     };
@@ -47,7 +48,7 @@ export default class Keyboard {
     this.data.forEach((el) => {
       const item = new Key(el, this)
         .generateKey()
-        .handleEvent();
+        .bindEvent();
       const btn = item.key;
       this.keys[el.row - 1].push(btn);
     });
@@ -89,14 +90,8 @@ export default class Keyboard {
     document.addEventListener('keyup', (e) => {
       e.preventDefault();
       if (e.code.match(/Shift/)) {
-        this.state.isShift = false;
+        this.state.isCaps = !this.state.isCaps;
         this.shiftPress();
-      }
-      if (e.code.match(/ControlLeft/)) {
-        this.state.isCtrlLeft = false;
-      }
-      if (e.code.match(/AltLeft/)) {
-        this.state.isAlt = false;
       }
     });
     return this;
@@ -109,17 +104,26 @@ export default class Keyboard {
     key.classList.toggle('active');
     switch (key.code) {
       case 'CapsLock':
+        this.state.isCaps = !this.state.isCaps;
         this.switchCase();
         break;
       case 'ShiftLeft':
-
+        this.state.isLeftShift = !this.state.isLeftShift;
+        console.log(this.state.isRightShift);
+        if (this.state.isRightShift) {
+          return false;
+        }
+        this.state.isCaps = !this.state.isCaps;
         this.shiftPress();
-        this.state.isShift = true;
         break;
       case 'ShiftRight':
-
+        console.log(this.state.isLeftShift);
+        this.state.isRightShift = !this.state.isRightShift;
+        if (this.state.isLeftShift) {
+          return false;
+        }
+        this.state.isCaps = !this.state.isCaps;
         this.shiftPress();
-        this.state.isShift = true;
         break;
       case 'ControlLeft':
         this.state.isCtrlLeft = true;
@@ -142,7 +146,6 @@ export default class Keyboard {
   }
 
   switchCase() {
-    this.state.isCaps = !this.state.isCaps;
     const letters = this.keys.filter((key) => key.type === 'letter');
     for (let i = 0; i < letters.length; i += 1) {
       const el = letters[i];
@@ -157,9 +160,6 @@ export default class Keyboard {
   }
 
   shiftPress() {
-    if (this.state.isShift) {
-      return;
-    }
     const arr = this.keys.filter((key) => key.isAltContent);
     for (let i = 0; i < arr.length; i += 1) {
       const temp = arr[i].firstChild.textContent;
@@ -170,21 +170,17 @@ export default class Keyboard {
   }
 
   switchLanguage() {
+    this.state.isCtrlLeft = false;
+    this.state.isAlt = false;
     this.lang = this.lang === 'ru' ? 'en' : 'ru';
     const arr = this.keys.filter((el) => !el.isFnKey);
     for (let i = 0; i < arr.length; i += 1) {
-      if (this.state.isCaps) {
-        arr[i].content[this.lang] = arr[i].content[this.lang].toUpperCase();
-        arr[i].altContent[this.lang] = arr[i].altContent[this.lang].toUpperCase();
-      } else {
-        arr[i].content[this.lang] = arr[i].content[this.lang].toLowerCase();
-        arr[i].altContent[this.lang] = arr[i].altContent[this.lang].toLowerCase();
-      }
       arr[i].firstChild.textContent = arr[i].content[this.lang];
       if (arr[i].isAltContent) {
         arr[i].lastChild.textContent = arr[i].altContent[this.lang];
       }
     }
+    this.switchCase();
     return this;
   }
 
