@@ -1,0 +1,136 @@
+@import '~reseter.css';
+@import './sass/_vars.scss';
+@import './sass/_base.scss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
+body {
+  background-color: #151b24;
+  padding: 5%;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.title {
+  color: #a9acad;
+  font-size: 40px;
+  color: #653196;
+}
+
+.desk {
+  margin-top: -45px;
+  color: #a9acad;
+  font-size: 20px;
+}
+
+.output {
+  width: 50%;
+  resize: none;
+  border-radius: 5px;
+  background-color: #a9acad;
+  font-size: 25px;
+  box-shadow: inset 0.5px 0.5px 0px #7120bd, 1px 1px 2px 1px #7120bd;
+}
+
+  .keys-wrapper {
+    padding: 10px;
+    display: grid;
+    gap: 5px;
+    background-color: #272d3b;
+    border-radius: 10px;
+    box-shadow: inset 0.5px 0.5px 0px #7120bd, 1px 1px 2px 1px #7120bd;
+  }
+
+  .keyboard-row {
+    display: flex;
+    gap: 5px;
+  }
+
+.key {
+    position: relative;
+    background-color: #000;
+    box-shadow: inset 0.5px 0.5px 0px  #5d86f7, 1px 1px 2px 1px  #5d86f7;
+    border: none;
+    border-radius: 16px;
+    color: #3f485e;
+    cursor: pointer;
+    display: flex;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-size: 2rem;
+    font-size: 23px;
+    font-weight: bold;
+    justify-content: center;
+    min-width: 65px;
+    align-items: center;
+    height: 65px;
+    box-sizing: border-box;
+    transform: scale(1);
+    transition: 1s
+  }
+
+  .key-backspace, 
+  .key-tab, 
+  .key-enter, 
+  .key-capslock, 
+  .key-delete, 
+  .key-shiftleft, 
+  .key-shiftright,
+  .key-space {
+    width: 100%;
+  }
+
+
+.key-space {
+  background-color: #272d3b;
+}
+
+
+.arrow-btn {
+  background-color: #6f6e74;
+}
+
+
+.key-capslock {
+  width: 150px;
+}
+
+.key-enter {
+ width: 170px
+}
+
+.key-shiftright {
+  max-width: 135px;
+}
+
+.bottom {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+.key:hover { 
+  transition: 1s;
+  transform: scale(0.9);
+  box-shadow: inset 0.5px 0.5px 0px #FF1493, 1px 1px 2px 1px #FF1493;
+}
+
+.key:active {
+  transform: scale(0.7);
+  color: #FF1493;
+}
+
+.key-pressed {
+  transform: scale(0.7);
+  box-shadow: inset 0.5px 0.5px 0px #FF1493, 1px 1px 2px 1px #FF1493;
+  color: #FF1493;
+}
+
+.active {
+  box-shadow: inset 0.5px 0.5px 0px #7120bd, 1px 1px 2px 1px #7120bd;
+}
