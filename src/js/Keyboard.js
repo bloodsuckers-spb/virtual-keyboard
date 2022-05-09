@@ -111,8 +111,10 @@ export default class Keyboard {
   }
 
   defineBtnFunctionality(e, key) {
-    if (e.repeat) {
-      return false;
+    if (!key.code.match(/space|enter/gi)) {
+      if (e.repeat) {
+        return false;
+      }
     }
     if (key.code.match(/caps/gi)) {
       key.classList.toggle('active');
