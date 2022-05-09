@@ -227,8 +227,16 @@ export default class Keyboard {
         }
         break;
       case 'Delete':
-        val = str1;
-        this.output.value = val;
+        if (start === end) {
+          val = str1 + str2.slice(1);
+          this.output.value = val;
+          this.output.setSelectionRange(str1.length, str1.length);
+        } else {
+          val = str1 + str2;
+          this.output.value = val;
+          this.output.setSelectionRange(str1.length, str1.length);
+        }
+
         break;
       case 'Tab':
         this.output.value = `${str1}\t${str2}`;
