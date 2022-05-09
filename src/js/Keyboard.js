@@ -88,6 +88,7 @@ export default class Keyboard {
       if (!key) {
         return;
       }
+      key.classList.add('key-pressed');
       if (key.isFnKey) {
         this.defineBtnFunctionality(e, key);
       } else {
@@ -96,9 +97,12 @@ export default class Keyboard {
     });
     document.addEventListener('keyup', (e) => {
       e.preventDefault();
+      const key = this.keys.find((el) => el.code === e.code);
+      if (!key) {
+        return;
+      }
+      key.classList.remove('key-pressed');
       if (e.code.match(/Shift/)) {
-        const key = this.keys.find((el) => el.code === e.code);
-        key.classList.toggle('active');
         this.state.isCaps = !this.state.isCaps;
         this.shiftPress();
       }
@@ -110,7 +114,7 @@ export default class Keyboard {
     if (e.repeat) {
       return false;
     }
-    if (!key.code.match(/space|enter|del|tab|meta|arrow/gi)) {
+    if (key.code.match(/caps/gi)) {
       key.classList.toggle('active');
     }
     switch (key.code) {
@@ -202,12 +206,13 @@ export default class Keyboard {
   }
 
   backspaceInOutput() {
-    if (this.state.stack[this.state.stack.length - 1] === 'Tab') {
-      this.output.value = this.output.value.slice(0, -4);
-    } else {
-      this.output.value = this.output.value.slice(0, -1);
-    }
-    this.state.stack.pop();
+    this.output.value = this.output.value.slice(0, -1);
+    // if (this.state.stack[this.state.stack.length - 1] === 'Tab') {
+    //   this.output.value = this.output.value.slice(0, -4);
+    // } else {
+    //   this.output.value = this.output.value.slice(0, -1);
+    // }
+    // this.state.stack.pop();
     return this;
   }
 
@@ -215,7 +220,7 @@ export default class Keyboard {
     this.state.stack.push(key.code);
     switch (key.code) {
       case 'Tab':
-        this.output.value += '    ';
+        this.output.value += '\t';
         break;
       case 'Enter':
         this.output.value += '\n';

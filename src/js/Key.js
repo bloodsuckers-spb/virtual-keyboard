@@ -13,11 +13,6 @@ export default class Key {
     let value = btn.code;
     value = value.toLowerCase();
     btn.classList.add(`key-${value}`);
-
-    if (btn.isFnKey) {
-      btn.classList.add('functional-btn');
-    }
-
     const firstChild = createDomNode('span', 'top');
     const secondChild = createDomNode('span', 'bottom');
     btn.append(firstChild, secondChild);
