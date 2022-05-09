@@ -1,6 +1,6 @@
 import createDomNode from './helpers/createDomNode';
 import Key from './Key';
-// import * as storage from './js/storage';
+import { set } from './storage';
 
 export default class Keyboard {
   constructor(data, lang = 'ru') {
@@ -191,6 +191,7 @@ export default class Keyboard {
     this.state.isCtrlLeft = false;
     this.state.isAlt = false;
     this.lang = this.lang === 'ru' ? 'en' : 'ru';
+    set('kbLang', this.lang);
     const arr = this.keys.filter((el) => !el.isFnKey);
     for (let i = 0; i < arr.length; i += 1) {
       arr[i].firstChild.textContent = arr[i].content[this.lang];
