@@ -1,8 +1,10 @@
 import './index.scss';
 
 import Keyboard from './js/Keyboard';
-import * as storage from './js/storage';
+// import { get } from './storage.js';
 import buttons from './js/buttons';
+
+// const lang = get('kbLang', '"ru"')
 
 new Keyboard(buttons)
   .generateOutput()

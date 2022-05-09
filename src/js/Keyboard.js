@@ -1,5 +1,6 @@
 import createDomNode from './helpers/createDomNode';
 import Key from './Key';
+// import * as storage from './js/storage';
 
 export default class Keyboard {
   constructor(data, lang = 'ru') {
@@ -9,7 +10,6 @@ export default class Keyboard {
       isRightShift: false,
       isAlt: false,
       isCtrlLeft: false,
-      stack: [],
     };
     this.lang = lang;
     this.data = data;
@@ -151,14 +151,11 @@ export default class Keyboard {
           this.switchLanguage();
         }
         break;
-      case 'Backspace':
-        this.backspaceInOutput();
+      case 'AltRight':
         break;
       case 'MetaLeft':
         break;
       case 'ControlRight':
-        break;
-      case 'Delete':
         break;
       default:
         this.print(key);
@@ -205,29 +202,46 @@ export default class Keyboard {
     return this;
   }
 
-  backspaceInOutput() {
-    this.output.value = this.output.value.slice(0, -1);
-    // if (this.state.stack[this.state.stack.length - 1] === 'Tab') {
-    //   this.output.value = this.output.value.slice(0, -4);
-    // } else {
-    //   this.output.value = this.output.value.slice(0, -1);
-    // }
-    // this.state.stack.pop();
-    return this;
-  }
-
   print(key) {
-    this.state.stack.push(key.code);
+    let val = '';
+    this.output.focus();
+    const start = this.output.selectionStart;
+    const end = this.output.selectionEnd;
+    const str1 = this.output.value.slice(0, start);
+    const str2 = this.output.value.slice(
+      end,
+
+      this.output.value.length,
+    );
     switch (key.code) {
+      case 'Backspace':
+        if (start === end) {
+          val = str1.slice(0, -1) + str2;
+          this.output.value = val;
+          this.output.setSelectionRange(str1.length - 1, str1.length - 1);
+        } else {
+          val = str1 + str2;
+          this.output.value = val;
+          this.output.setSelectionRange(str1.length, str1.length);
+        }
+        break;
+      case 'Delete':
+        val = str1;
+        this.output.value = val;
+        break;
       case 'Tab':
-        this.output.value += '\t';
+        this.output.value = `${str1}\t${str2}`;
         break;
       case 'Enter':
-        this.output.value += '\n';
+        this.output.value = `${str1}\n${str2}`;
         break;
+
       default:
-        this.output.value += key.firstChild.textContent;
+        this.output.value = str1 + key.firstChild.textContent + str2;
+        this.output.setSelectionRange(start, end);
+        this.output.selectionStart = start + 1;
     }
+
     return this;
   }
 
