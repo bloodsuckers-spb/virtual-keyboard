@@ -33,6 +33,9 @@ export default class Key {
 
       if (this.key.isFnKey) {
         this.keyboard.defineBtnFunctionality(e, this.key);
+        if (this.key.code.match(/shift|ControlLeft|AltLeft/gi)) {
+          this.key.classList.toggle('active');
+        }
       } else {
         this.keyboard.print(this.key);
       }
